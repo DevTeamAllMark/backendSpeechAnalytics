@@ -10,7 +10,7 @@ async def transcribe_with_assembly(audio_path: str) -> str:
     }
 
     async with httpx.AsyncClient() as client:
-        # Paso 1: subir audio
+        # Upload
         with open(audio_path, "rb") as f:
             upload_res = await client.post(
                 "https://api.assemblyai.com/v2/upload",
@@ -19,7 +19,7 @@ async def transcribe_with_assembly(audio_path: str) -> str:
             )
         audio_url = upload_res.json()["upload_url"]
 
-        # Paso 2: solicitar transcripción en español
+        # Trnascription to spanish
         transcribe_res = await client.post(
             API_URL,
             headers=headers,
@@ -30,7 +30,7 @@ async def transcribe_with_assembly(audio_path: str) -> str:
         )
         transcript_id = transcribe_res.json()["id"]
 
-        # Paso 3: hacer polling hasta que la transcripción esté completa
+        # polling until transcription end
         while True:
             poll_res = await client.get(f"{API_URL}/{transcript_id}", headers=headers)
             data = poll_res.json()

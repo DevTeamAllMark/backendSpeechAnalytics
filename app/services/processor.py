@@ -3,6 +3,7 @@ import asyncio
 from app.config import AUDIO_FOLDER
 from app.utils.audio_utils import is_audio_file, convert_to_wav
 from app.services.assemblyai import transcribe_with_assembly
+from app.services.whisper import transcribe_with_whisper
 from app.db.mongo import collection
 
 queue = asyncio.Queue()
@@ -19,7 +20,7 @@ async def process_audio():
         try:
             print(f"🟡 Procesando: {audio_path}")
             wav_path = convert_to_wav(audio_path)
-            text = await transcribe_with_assembly(wav_path)
+            text = await transcribe_with_whisper(wav_path)
 
             await collection.insert_one({
                 "filename": os.path.basename(audio_path),
@@ -27,5 +28,5 @@ async def process_audio():
             })
             print(f"✅ Transcripción guardada: {audio_path}")
         except Exception as e:
-            print(f"❌ Error procesando {audio_path}: {e}")
+            print(f"❌ Error con el")
         queue.task_done()
