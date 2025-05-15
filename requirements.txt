@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+motor         # MongoDB async
+python-dotenv
+aiofiles
+httpx
+openai-whisper
+ffmpeg-python
