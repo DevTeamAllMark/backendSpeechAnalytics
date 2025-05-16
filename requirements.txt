@@ -6,3 +6,5 @@ aiofiles
 httpx
 openai-whisper
 ffmpeg-python
+python-multipart
+python-jose
